@@ -18,9 +18,10 @@ import {
   AntDesign,
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
-
+import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from "@react-navigation/native";
 import { fetchPosts, getPostByUser } from "../store/features/PostReducer";
+import { logout } from "../store/features/AuthReducer";
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -42,6 +43,12 @@ const HomeScreen = () => {
   useEffect(() => {
     dispatch(fetchPosts());
   }, []);
+
+  const handleLogout = () => {
+    dispatch(logout()).then(() => {
+      navigation.navigate("login");
+    });
+  };
 
   const handleSearch = () => {
     // Effectuez la logique de recherche ici en utilisant la valeur de `searchValue`
@@ -103,8 +110,9 @@ const HomeScreen = () => {
           VITE <Text style={styles.text12}>FAIT</Text>
         </Text>
 
-        <TouchableOpacity style={styles.button}>
-          {user ? <Text>{user.name} </Text> : <Text></Text>}
+        <TouchableOpacity style={styles.button}
+        onPress={() => handleLogout()}>
+          <Text style={{padding:7}}><Ionicons name="exit-outline" size={24} color="black" /></Text>
         </TouchableOpacity>
       </View>
       {/* /////////////////block recherche///////////// */}
